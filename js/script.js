@@ -212,3 +212,26 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 scrollToSlide(currentSlideIndex);
             }
         });
+        
+        /* --- 7. DYNAMIC INTERSECTION OBSERVER FOR MOBILE VIEWPORTS --- */
+        // Automatically expands the vertical drawer as the user scrolls them into focus
+        const observerOptions = {
+            root: null, // Viewport
+            rootMargin: '-15% 0px -15% 0px', // Shrink the trigger boundary area to the middle of the screen
+            threshold: 0.15 // Triggers when 15% of the card occupies this center screen boundary
+        };
+
+        const projectObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('expanded');
+                } else {
+                    entry.target.classList.remove('expanded');
+                }
+            });
+        }, observerOptions);
+
+        // Bind observer to all rows
+        document.querySelectorAll('.project-row').forEach(row => {
+            projectObserver.observe(row);
+        });

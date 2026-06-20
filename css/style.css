@@ -560,7 +560,7 @@ footer {
     transition: all 0.8s ease;
 }
 
-@media(max-width:768px){
+@media(max-width:991px){
 
     .hero h1{
         font-size:3rem;
@@ -569,21 +569,106 @@ footer {
     .nav-links{
         display:none;
     }
-    .project-row {
-    grid-template-columns: 1fr !important;
-    height: auto; /* Let the height adapt dynamically to the text */
-}
-.project-content-panel {
-    opacity: 1 !important;
-    transform: none !important;
-    padding: 3.5rem 2rem; /* Clean, generous mobile padding */
-    border-left: none; /* Drop the desktop vertical divider */
-    border-top: 1px solid rgba(255, 255, 255, 0.03); /* Add a subtle top border instead */
-    background: #090a0b; /* Match the dark premium canvas */
-}
-.project-image-panel {
-    height: 340px; /* Constrain image height on portrait screens */
-    padding: 2.5rem 2rem;
-}
+     /* 
+               PREMIUM MOVEMENT MODEL:
+               On mobile, grid columns are locked to full width (1fr).
+               Instead, we animate the row height vertically by animating grid-template-rows!
+            */
+            .project-row {
+                grid-template-columns: 1fr !important;
+                grid-template-rows: 380px 0fr; /* Row 1: Cover Image, Row 2: Drawer Content (starts hidden) */
+                height: auto;
+                transition: grid-template-rows var(--transition-glide);
+            }
+
+            /* Scroll-triggered viewport target changes this row ratio gracefully */
+            .project-row.expanded {
+                grid-template-rows: 280px 1fr; /* Image squeezes slightly, content rolls down underneath */
+            }
+
+            .project-image-panel {
+                height: 100%; /* Auto fill the first row track */
+                padding: 2.5rem 2rem;
+                transition: height var(--transition-glide);
+            }
+
+            .cover-overlay h2 {
+                font-size: 2.6rem;
+            }
+
+            /* Drawer slides down vertically and fades in when .expanded triggers */
+            .project-content-panel {
+                opacity: 0 !important;
+                transform: translateY(30px) !important;
+                transition: opacity 0.4s ease, transform var(--transition-glide) !important;
+                padding: 3.5rem 2rem;
+                border-left: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.03);
+                background: #090a0b;
+                overflow: hidden;
+            }
+
+            .project-row.expanded .project-content-panel {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+
+            .panel-inner {
+                max-width: 100%;
+            }
+
+            .panel-inner h3 {
+                font-size: 1.8rem;
+                margin: 10px 0 15px 0;
+            }
+
+            .panel-inner p {
+                margin-bottom: 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            /* Responsive Slide Overlay adjustments */
+            .kb-tip {
+                display: none; /* Hide keyboard helpers on touch devices */
+            }
+
+            .close-theater {
+                top: 20px;
+                right: 20px;
+                font-size: 2rem;
+            }
+
+            .slide-frame {
+                border-radius: 8px;
+            }
+
+            .theater-hud {
+                bottom: 25px;
+            }
 
 }
+@media (max-width: 480px) {
+            .nav-links {
+                display: none; /* Keep the navigation focus purely minimal on small phones */
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .project-row {
+                grid-template-rows: 300px 0fr;
+            }
+
+            .project-row.expanded {
+                grid-template-rows: 220px 1fr;
+            }
+
+            .project-image-panel {
+                height: 100%;
+            }
+
+            .cover-overlay h2 {
+                font-size: 2.2rem;
+            }
+        }
