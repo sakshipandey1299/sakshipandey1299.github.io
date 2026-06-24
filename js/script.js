@@ -171,7 +171,6 @@
         });
         
         /* --- 7. DYNAMIC INTERSECTION OBSERVER WITH HYSTERESIS --- */
-        // Uses a double threshold trigger system to completely stop bouncing & flickering loops
         const observerOptions = {
             root: null, // Viewport
             rootMargin: '0px 0px -10% 0px', // Slight offset at the bottom to trigger early
@@ -183,10 +182,8 @@
                 const ratio = entry.intersectionRatio;
                 
                 if (entry.isIntersecting && ratio >= 0.40) {
-                    // Requires 40% of the element to enter the viewport before expanding
                     entry.target.classList.add('expanded');
                 } else if (ratio < 0.10) {
-                    // Safe guard: Card must fall below 10% on screen before collapsing back down
                     entry.target.classList.remove('expanded');
                 }
             });
@@ -196,12 +193,12 @@
         document.querySelectorAll('.project-row').forEach(row => {
             projectObserver.observe(row);
         });
-        
-                /* --- 8. TOGGLE ARTICLES IN INSIGHTS --- */
+
+        /* --- 8. TOGGLE ARTICLES IN INSIGHTS (WITH SMOOTH STABLE ALIGNMENT) --- */
         function toggleArticle(element) {
             const isActive = element.classList.contains('active');
             
-            // Optional: Close other active articles for accordion behavior
+            // Close other active articles for accordion behavior
             document.querySelectorAll('.article-item.active').forEach(item => {
                 if (item !== element) {
                     item.classList.remove('active');
@@ -213,6 +210,21 @@
                 element.classList.remove('active');
             } else {
                 element.classList.add('active');
+                
+                // FIXED SCROLL ALIGNMENT LOGIC:
+                // We calculate the target coordinates, subtract the height of your 
+                // fixed glass header, and trigger a smooth scroll to keep focus.
+                setTimeout(() => {
+                    const fixedHeader = document.querySelector('header');
+                    const headerHeight = fixedHeader ? fixedHeader.offsetHeight : 80;
+                    
+                    const elementTop = element.getBoundingClientRect().top + window.scrollY;
+                    const targetScrollPos = elementTop - headerHeight - 24; // 24px extra breathing margin
+
+                    window.scrollTo({
+                        top: targetScrollPos,
+                        behavior: 'smooth'
+                    });
+                }, 350); // Gives the previous item collapsing animation enough time to move layout
             }
         }
-        
