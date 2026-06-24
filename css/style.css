@@ -235,7 +235,7 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
-        /* --- 4. ABOUT & SKILLS SECTIONS --- */
+ /* --- 4. ABOUT & SKILLS SECTIONS (EDITORIAL TWO COLUMN) --- */
         .section {
             padding: 120px 0;
         }
@@ -247,14 +247,71 @@
             margin-bottom: 40px;
         }
 
+        .about-split-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
         .about-text {
-            max-width: 800px;
-            margin-bottom: 40px;
             font-size: 1.1rem;
             line-height: 1.8;
             color: #a39e93;
         }
 
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        /* Tactile Luxury Portrait Frame with double borders and glow */
+        .about-portrait-frame {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            margin: 0 auto;
+            aspect-ratio: 3 / 4; /* Editorial portrait proportions */
+            border-radius: 20px;
+            padding: 10px;
+            background: linear-gradient(135deg, #141619 0%, #0d0e10 100%);
+            border: 1px solid rgba(223, 186, 115, 0.15);
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.03),
+                0 15px 40px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .about-portrait-frame:hover {
+            border-color: rgba(223, 186, 115, 0.4);
+            box-shadow: 
+                0 0 30px rgba(223, 186, 115, 0.08),
+                0 20px 50px rgba(0, 0, 0, 0.8);
+            transform: translateY(-4px);
+        }
+
+        .about-portrait-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(223, 186, 115, 0.08);
+        }
+
+        .about-portrait-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Editorial filtering - muted lux colors */
+            filter: grayscale(10%) contrast(102%) brightness(95%);
+            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .about-portrait-frame:hover .about-portrait-inner img {
+            transform: scale(1.04); /* Elegant slow zoom */
+        }
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -703,6 +760,15 @@
 
             .nav-links {
                 display: none; /* Minimal focus on mobile devices */
+            }
+            
+            .about-split-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-portrait-frame {
+                max-width: 340px;
             }
 
             /* PREMIUM STABILIZED MOVEMENT MODEL */
